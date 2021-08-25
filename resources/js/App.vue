@@ -6,6 +6,10 @@
           :headers="headers"
           :items="items"
           :search="search"
+          :single-expand="singleExpand"
+          :expanded.sync="expanded"
+          show-expand
+          item-key="id_item"
           sort-by="name_item"
           class="elevation-1"
         >
@@ -50,13 +54,19 @@
                         <v-col cols="12" sm="6" md="4">
                           <v-switch
                             v-model="editedItem.type_item"
-                            :label="`Тип: ${editedItem.type_item == true? 'Динамика':'Статика'}`"
+                            :label="`Тип: ${
+                              editedItem.type_item == true
+                                ? 'Динамика'
+                                : 'Статика'
+                            }`"
                           ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-switch
                             v-model="editedItem.light_item"
-                            :label="`Свет: ${editedItem.light_item == true? 'Да':'Нет'}`"
+                            :label="`Свет: ${
+                              editedItem.light_item == true ? 'Да' : 'Нет'
+                            }`"
                           ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
@@ -78,11 +88,28 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.photo_item"
-                            label="Фото"
-                          ></v-text-field>
-                          <UploadFile></UploadFile>
+                          <UploadFile
+                            :side="0"
+                            :getPhotoLink="getPhotoLink"
+                          ></UploadFile>
+                          <v-img
+                            :lazy-src="editedItem.photo_b_item"
+                            max-height="150"
+                            max-width="250"
+                            :src="editedItem.photo_a_item"
+                          ></v-img>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <UploadFile
+                            :side="1"
+                            :getPhotoLink="getPhotoLink"
+                          ></UploadFile>
+                          <v-img
+                            :lazy-src="editedItem.photo_b_item"
+                            max-height="150"
+                            max-width="250"
+                            :src="editedItem.photo_b_item"
+                          ></v-img>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
@@ -130,11 +157,18 @@
               </v-dialog>
             </v-toolbar>
           </template>
+
+          <template v-slot:expanded-item="{ item }">
+            <td :colspan="headers.length">
+              <v-container><Side></Side></v-container>
+            </td>
+          </template>
+
           <template v-slot:item.type_item="{ item }">
-            {{item.type_item == true? 'Динамика':'Статика'}}
+            {{ item.type_item == true ? "Динамика" : "Статика" }}
           </template>
           <template v-slot:item.light_item="{ item }">
-            {{item.light_item == true? 'Да':'Нет'}}
+            {{ item.light_item == true ? "Да" : "Нет" }}
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
@@ -154,25 +188,28 @@
 
 <script>
 import UploadFile from "./components/UploadFile.vue";
+import Side from "./components/Side.vue";
 
 export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    expanded: [],
+    singleExpand: false,
     headers: [
-      {value: "name_item", text: "Наименование"},
-      {value: "type_item", text: "Тип"},
-      {value: "light_item", text: "Свет"},
-      {value: "price_item", text: "Цена аренды"},
-      {value: "make_price_item", text: "Цена изготовления"},
-      {value: "mount_price_item", text: "Цена монтаж"},
-      {value: "photo_item", text: "Фото"},
-      {value: "location_item", text: "Локация"},
-      {value: "tech_item", text: "Тех требования"},
-      { text: 'Функции', value: 'actions', sortable: false },
+      { value: "name_item", text: "Наименование" },
+      { value: "type_item", text: "Тип" },
+      { value: "light_item", text: "Свет" },
+      { value: "price_item", text: "Цена аренды" },
+      { value: "make_price_item", text: "Цена изготовления" },
+      { value: "mount_price_item", text: "Цена монтаж" },
+      { value: "location_item", text: "Локация" },
+      { value: "tech_item", text: "Тех требования" },
+      { text: "Функции", value: "actions", sortable: false },
+      { text: "Месяцы", value: "data-table-expand" },
     ],
     items: [],
-    search: '',
+    search: "",
     editedIndex: -1,
     editedItem: {
       name_item: "",
@@ -181,7 +218,6 @@ export default {
       price_item: 0,
       make_price_item: 0,
       mount_price_item: 0,
-      photo_item: 0,
       location_item: 0,
       tech_item: 0,
     },
@@ -192,14 +228,14 @@ export default {
       price_item: 0,
       make_price_item: 0,
       mount_price_item: 0,
-      photo_item: 0,
       location_item: 0,
       tech_item: 0,
     },
   }),
 
   components: {
-    UploadFile
+    UploadFile,
+    Side,
   },
 
   computed: {
@@ -223,7 +259,7 @@ export default {
 
   methods: {
     initialize() {
-       axios.get("bill").then(response => {
+      axios.get("bill").then((response) => {
         this.items = response.data;
       });
     },
@@ -242,12 +278,13 @@ export default {
 
     deleteItemConfirm() {
       this.items.splice(this.editedIndex, 1);
-        axios.post("bill/delete", {
-              item: this.editedItem
-            })
-            .then(response => {
-              this.initialize();
-            });
+      axios
+        .post("bill/delete", {
+          item: this.editedItem,
+        })
+        .then((response) => {
+          this.initialize();
+        });
       this.closeDelete();
     },
 
@@ -275,12 +312,22 @@ export default {
       }
       axios
         .post("bill/update", {
-          item: this.editedItem
+          item: this.editedItem,
         })
-        .then(response => {
+        .then((response) => {
           this.initialize();
         });
       this.close();
+    },
+
+    getPhotoLink(data) {
+      console.log(data[0] == 0);
+      console.log(data);
+      if (data[0] == 0) {
+        this.editedItem.photo_a_item = data[1];
+      } else {
+        this.editedItem.photo_b_item = data[1];
+      }
     },
   },
 };

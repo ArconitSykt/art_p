@@ -21,7 +21,8 @@ class Billboards extends Migration
             $table->float("price_item", 8, 2)->comment("Стоимость")->default(0.0);
             $table->float("make_price_item", 8, 2)->comment("Стоимость создания")->default(0.0);
             $table->float("mount_price_item", 8, 2)->comment("Стоимость аренды")->default(0.0);
-            $table->text("photo_item")->comment("Фото")->nullable();
+            $table->text("photo_a_item")->comment("Фото A")->nullable();
+            $table->text("photo_b_item")->comment("Фото B")->nullable();
             $table->text("location_item")->comment("Расположение")->nullable();
             $table->text("tech_item")->comment("Тех")->nullable();
             $table->timestamp('created_at')->useCurrent();

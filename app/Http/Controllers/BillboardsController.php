@@ -27,7 +27,7 @@ class BillboardsController extends Controller
         $ext = $file->getClientOriginalExtension();
         $name = uniqid("art");
         if (Storage::putFileAs('/public/upload/', $file, $name.'.'.$ext)) {
-            return ["Файл загружен, дождитесь импорта", "storage/templates/import/".$name.".".$ext];
+            return [$request->side, "storage/upload/".$name.".".$ext];
         }
         return response()->json(false);
     }
