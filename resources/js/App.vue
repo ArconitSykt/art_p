@@ -4,25 +4,33 @@
       <v-container fluid>
         <v-data-table
           :headers="headers"
-          :items="desserts"
-          sort-by="calories"
+          :items="items"
+          :search="search"
+          sort-by="name_item"
           class="elevation-1"
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>My CRUD</v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-toolbar-title>ART</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-dialog v-model="dialog" max-width="500px">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Поиск"
+                single-line
+                hide-details
+              ></v-text-field>
+
+              <v-dialog v-model="dialog" max-width="700px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
+                    class="mb-2 ml-2"
                     v-bind="attrs"
                     v-on="on"
                   >
-                    New Item
+                    Новый элемент
                   </v-btn>
                 </template>
                 <v-card>
@@ -35,32 +43,57 @@
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.name"
-                            label="Dessert name"
+                            v-model="editedItem.name_item"
+                            label="Наименование"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-switch
+                            v-model="editedItem.type_item"
+                            :label="`Тип: ${editedItem.type_item == true? 'Динамика':'Статика'}`"
+                          ></v-switch>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-switch
+                            v-model="editedItem.light_item"
+                            :label="`Свет: ${editedItem.light_item == true? 'Да':'Нет'}`"
+                          ></v-switch>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model.number="editedItem.price_item"
+                            label="Цена"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.calories"
-                            label="Calories"
+                            v-model="editedItem.make_price_item"
+                            label="Цена создания"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.fat"
-                            label="Fat (g)"
+                            v-model="editedItem.mount_price_item"
+                            label="Цена монтирования"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.carbs"
-                            label="Carbs (g)"
+                            v-model="editedItem.photo_item"
+                            label="Фото"
+                          ></v-text-field>
+                          <UploadFile></UploadFile>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model="editedItem.location_item"
+                            label="Расположение"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.protein"
-                            label="Protein (g)"
+                            v-model="editedItem.tech_item"
+                            label="Тех"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -70,10 +103,10 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close">
-                      Cancel
+                      Отменить
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="save">
-                      Save
+                      Сохранить
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -81,21 +114,27 @@
               <v-dialog v-model="dialogDelete" max-width="500px">
                 <v-card>
                   <v-card-title class="headline"
-                    >Are you sure you want to delete this item?</v-card-title
+                    >Вы хотите удалить этот элемент?</v-card-title
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="closeDelete"
-                      >Cancel</v-btn
+                      >Отмена</v-btn
                     >
                     <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                      >OK</v-btn
+                      >Удалить</v-btn
                     >
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
             </v-toolbar>
+          </template>
+          <template v-slot:item.type_item="{ item }">
+            {{item.type_item == true? 'Динамика':'Статика'}}
+          </template>
+          <template v-slot:item.light_item="{ item }">
+            {{item.light_item == true? 'Да':'Нет'}}
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
@@ -104,7 +143,7 @@
             <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
           </template>
           <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize"> Reset </v-btn>
+            <v-btn color="primary" @click="initialize"> Обновить </v-btn>
           </template>
         </v-data-table>
       </v-container>
@@ -114,44 +153,58 @@
 </template>
 
 <script>
+import UploadFile from "./components/UploadFile.vue";
+
 export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
     headers: [
-      {
-        text: "Dessert (100g serving)",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
-      { text: "Actions", value: "actions", sortable: false },
+      {value: "name_item", text: "Наименование"},
+      {value: "type_item", text: "Тип"},
+      {value: "light_item", text: "Свет"},
+      {value: "price_item", text: "Цена аренды"},
+      {value: "make_price_item", text: "Цена изготовления"},
+      {value: "mount_price_item", text: "Цена монтаж"},
+      {value: "photo_item", text: "Фото"},
+      {value: "location_item", text: "Локация"},
+      {value: "tech_item", text: "Тех требования"},
+      { text: 'Функции', value: 'actions', sortable: false },
     ],
-    desserts: [],
+    items: [],
+    search: '',
     editedIndex: -1,
     editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      name_item: "",
+      type_item: 0,
+      light_item: false,
+      price_item: 0,
+      make_price_item: 0,
+      mount_price_item: 0,
+      photo_item: 0,
+      location_item: 0,
+      tech_item: 0,
     },
     defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      name_item: "",
+      type_item: 0,
+      light_item: false,
+      price_item: 0,
+      make_price_item: 0,
+      mount_price_item: 0,
+      photo_item: 0,
+      location_item: 0,
+      tech_item: 0,
     },
   }),
 
+  components: {
+    UploadFile
+  },
+
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1 ? "Создать" : "Редактировать";
     },
   },
 
@@ -170,94 +223,31 @@ export default {
 
   methods: {
     initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ];
+       axios.get("bill").then(response => {
+        this.items = response.data;
+      });
     },
 
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
+      this.items.splice(this.editedIndex, 1);
+        axios.post("bill/delete", {
+              item: this.editedItem
+            })
+            .then(response => {
+              this.initialize();
+            });
       this.closeDelete();
     },
 
@@ -279,10 +269,17 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.items[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.items.push(this.editedItem);
       }
+      axios
+        .post("bill/update", {
+          item: this.editedItem
+        })
+        .then(response => {
+          this.initialize();
+        });
       this.close();
     },
   },

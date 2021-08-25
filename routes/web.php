@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('bill', [
+    'uses' => 'BillboardsController@index',
+]);
+Route::post('bill/update/', [
+    'uses' => 'BillboardsController@uoi',
+]);
+Route::post('bill/delete/', [
+    'uses' => 'BillboardsController@delete',
+]);
+
+Route::post('files/upload/', [
+    'uses' => 'BillboardsController@upload',
+]);

@@ -1845,6 +1845,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_UploadFile_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/UploadFile.vue */ "./resources/js/components/UploadFile.vue");
 //
 //
 //
@@ -1942,6 +1943,226 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      dialog: false,
+      dialogDelete: false,
+      headers: [{
+        value: "name_item",
+        text: "Наименование"
+      }, {
+        value: "type_item",
+        text: "Тип"
+      }, {
+        value: "light_item",
+        text: "Свет"
+      }, {
+        value: "price_item",
+        text: "Цена аренды"
+      }, {
+        value: "make_price_item",
+        text: "Цена изготовления"
+      }, {
+        value: "mount_price_item",
+        text: "Цена монтаж"
+      }, {
+        value: "photo_item",
+        text: "Фото"
+      }, {
+        value: "location_item",
+        text: "Локация"
+      }, {
+        value: "tech_item",
+        text: "Тех требования"
+      }, {
+        text: 'Функции',
+        value: 'actions',
+        sortable: false
+      }],
+      items: [],
+      search: '',
+      editedIndex: -1,
+      editedItem: {
+        name_item: "",
+        type_item: 0,
+        light_item: false,
+        price_item: 0,
+        make_price_item: 0,
+        mount_price_item: 0,
+        photo_item: 0,
+        location_item: 0,
+        tech_item: 0
+      },
+      defaultItem: {
+        name_item: "",
+        type_item: 0,
+        light_item: false,
+        price_item: 0,
+        make_price_item: 0,
+        mount_price_item: 0,
+        photo_item: 0,
+        location_item: 0,
+        tech_item: 0
+      }
+    };
+  },
+  components: {
+    UploadFile: _components_UploadFile_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  computed: {
+    formTitle: function formTitle() {
+      return this.editedIndex === -1 ? "Создать" : "Редактировать";
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    },
+    dialogDelete: function dialogDelete(val) {
+      val || this.closeDelete();
+    }
+  },
+  created: function created() {
+    this.initialize();
+  },
+  methods: {
+    initialize: function initialize() {
+      var _this = this;
+
+      axios.get("bill").then(function (response) {
+        _this.items = response.data;
+      });
+    },
+    editItem: function editItem(item) {
+      this.editedIndex = this.items.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+    deleteItem: function deleteItem(item) {
+      this.editedIndex = this.items.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+    deleteItemConfirm: function deleteItemConfirm() {
+      var _this2 = this;
+
+      this.items.splice(this.editedIndex, 1);
+      axios.post("bill/delete", {
+        item: this.editedItem
+      }).then(function (response) {
+        _this2.initialize();
+      });
+      this.closeDelete();
+    },
+    close: function close() {
+      var _this3 = this;
+
+      this.dialog = false;
+      this.$nextTick(function () {
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
+      });
+    },
+    closeDelete: function closeDelete() {
+      var _this4 = this;
+
+      this.dialogDelete = false;
+      this.$nextTick(function () {
+        _this4.editedItem = Object.assign({}, _this4.defaultItem);
+        _this4.editedIndex = -1;
+      });
+    },
+    save: function save() {
+      var _this5 = this;
+
+      if (this.editedIndex > -1) {
+        Object.assign(this.items[this.editedIndex], this.editedItem);
+      } else {
+        this.items.push(this.editedItem);
+      }
+
+      axios.post("bill/update", {
+        item: this.editedItem
+      }).then(function (response) {
+        _this5.initialize();
+      });
+      this.close();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 //
 //
 //
@@ -1963,168 +2184,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      dialog: false,
-      dialogDelete: false,
-      headers: [{
-        text: "Dessert (100g serving)",
-        align: "start",
-        sortable: false,
-        value: "name"
-      }, {
-        text: "Calories",
-        value: "calories"
-      }, {
-        text: "Fat (g)",
-        value: "fat"
-      }, {
-        text: "Carbs (g)",
-        value: "carbs"
-      }, {
-        text: "Protein (g)",
-        value: "protein"
-      }, {
-        text: "Actions",
-        value: "actions",
-        sortable: false
-      }],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
+      file: null
     };
   },
-  computed: {
-    formTitle: function formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    }
-  },
-  watch: {
-    dialog: function dialog(val) {
-      val || this.close();
-    },
-    dialogDelete: function dialogDelete(val) {
-      val || this.closeDelete();
-    }
-  },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.desserts = [{
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0
-      }, {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3
-      }, {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0
-      }, {
-        name: "Cupcake",
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3
-      }, {
-        name: "Gingerbread",
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9
-      }, {
-        name: "Jelly bean",
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0
-      }, {
-        name: "Lollipop",
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0
-      }, {
-        name: "Honeycomb",
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5
-      }, {
-        name: "Donut",
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9
-      }, {
-        name: "KitKat",
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7
-      }];
-    },
-    editItem: function editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    deleteItem: function deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-    deleteItemConfirm: function deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-    close: function close() {
-      var _this = this;
-
-      this.dialog = false;
-      this.$nextTick(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
+    submitFile: function submitFile() {
+      var config = {
+        "Content-Type": "multipart/form-data"
+      };
+      var formData = new FormData();
+      formData.append('file', this.file);
+      axios.post('files/upload', formData, config).then(function () {
+        console.log('SUCCESS!!');
+      })["catch"](function () {
+        console.log('FAILURE!!');
       });
     },
-    closeDelete: function closeDelete() {
-      var _this2 = this;
-
-      this.dialogDelete = false;
-      this.$nextTick(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
-      });
-    },
-    save: function save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
-
-      this.close();
+    handleFileUpload: function handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
   }
 });
@@ -38055,6 +38132,45 @@ component.options.__file = "resources/js/App.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/UploadFile.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/UploadFile.vue ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UploadFile.vue?vue&type=template&id=3fff6548& */ "./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548&");
+/* harmony import */ var _UploadFile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UploadFile.vue?vue&type=script&lang=js& */ "./resources/js/components/UploadFile.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _UploadFile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__.render,
+  _UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/UploadFile.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/App.vue?vue&type=script&lang=js&":
 /*!*******************************************************!*\
   !*** ./resources/js/App.vue?vue&type=script&lang=js& ***!
@@ -38071,6 +38187,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/UploadFile.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/UploadFile.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadFile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UploadFile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadFile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/App.vue?vue&type=template&id=f348271a&":
 /*!*************************************************************!*\
   !*** ./resources/js/App.vue?vue&type=template&id=f348271a& ***!
@@ -38084,6 +38216,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_f348271a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_f348271a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./App.vue?vue&type=template&id=f348271a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/App.vue?vue&type=template&id=f348271a&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadFile_vue_vue_type_template_id_3fff6548___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UploadFile.vue?vue&type=template&id=3fff6548& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548&");
 
 
 /***/ }),
@@ -38118,8 +38267,9 @@ var render = function() {
                 staticClass: "elevation-1",
                 attrs: {
                   headers: _vm.headers,
-                  items: _vm.desserts,
-                  "sort-by": "calories"
+                  items: _vm.items,
+                  search: _vm.search,
+                  "sort-by": "name_item"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -38130,19 +38280,30 @@ var render = function() {
                           "v-toolbar",
                           { attrs: { flat: "" } },
                           [
-                            _c("v-toolbar-title", [_vm._v("My CRUD")]),
-                            _vm._v(" "),
-                            _c("v-divider", {
-                              staticClass: "mx-4",
-                              attrs: { inset: "", vertical: "" }
-                            }),
+                            _c("v-toolbar-title", [_vm._v("ART")]),
                             _vm._v(" "),
                             _c("v-spacer"),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              attrs: {
+                                "append-icon": "mdi-magnify",
+                                label: "Поиск",
+                                "single-line": "",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.search,
+                                callback: function($$v) {
+                                  _vm.search = $$v
+                                },
+                                expression: "search"
+                              }
+                            }),
                             _vm._v(" "),
                             _c(
                               "v-dialog",
                               {
-                                attrs: { "max-width": "500px" },
+                                attrs: { "max-width": "700px" },
                                 scopedSlots: _vm._u([
                                   {
                                     key: "activator",
@@ -38155,7 +38316,7 @@ var render = function() {
                                           _vm._g(
                                             _vm._b(
                                               {
-                                                staticClass: "mb-2",
+                                                staticClass: "mb-2 ml-2",
                                                 attrs: {
                                                   color: "primary",
                                                   dark: ""
@@ -38169,7 +38330,7 @@ var render = function() {
                                           ),
                                           [
                                             _vm._v(
-                                              "\n                  New Item\n                "
+                                              "\n                  Новый элемент\n                "
                                             )
                                           ]
                                         )
@@ -38217,57 +38378,23 @@ var render = function() {
                                                   [
                                                     _c("v-text-field", {
                                                       attrs: {
-                                                        label: "Dessert name"
-                                                      },
-                                                      model: {
-                                                        value:
-                                                          _vm.editedItem.name,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            _vm.editedItem,
-                                                            "name",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "editedItem.name"
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-col",
-                                                  {
-                                                    attrs: {
-                                                      cols: "12",
-                                                      sm: "6",
-                                                      md: "4"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("v-text-field", {
-                                                      attrs: {
-                                                        label: "Calories"
+                                                        label: "Наименование"
                                                       },
                                                       model: {
                                                         value:
                                                           _vm.editedItem
-                                                            .calories,
+                                                            .name_item,
                                                         callback: function(
                                                           $$v
                                                         ) {
                                                           _vm.$set(
                                                             _vm.editedItem,
-                                                            "calories",
+                                                            "name_item",
                                                             $$v
                                                           )
                                                         },
                                                         expression:
-                                                          "editedItem.calories"
+                                                          "editedItem.name_item"
                                                       }
                                                     })
                                                   ],
@@ -38284,93 +38411,277 @@ var render = function() {
                                                     }
                                                   },
                                                   [
-                                                    _c("v-text-field", {
+                                                    _c("v-switch", {
                                                       attrs: {
-                                                        label: "Fat (g)"
-                                                      },
-                                                      model: {
-                                                        value:
-                                                          _vm.editedItem.fat,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            _vm.editedItem,
-                                                            "fat",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "editedItem.fat"
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-col",
-                                                  {
-                                                    attrs: {
-                                                      cols: "12",
-                                                      sm: "6",
-                                                      md: "4"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("v-text-field", {
-                                                      attrs: {
-                                                        label: "Carbs (g)"
-                                                      },
-                                                      model: {
-                                                        value:
-                                                          _vm.editedItem.carbs,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            _vm.editedItem,
-                                                            "carbs",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "editedItem.carbs"
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-col",
-                                                  {
-                                                    attrs: {
-                                                      cols: "12",
-                                                      sm: "6",
-                                                      md: "4"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("v-text-field", {
-                                                      attrs: {
-                                                        label: "Protein (g)"
+                                                        label:
+                                                          "Тип: " +
+                                                          (_vm.editedItem
+                                                            .type_item == true
+                                                            ? "Динамика"
+                                                            : "Статика")
                                                       },
                                                       model: {
                                                         value:
                                                           _vm.editedItem
-                                                            .protein,
+                                                            .type_item,
                                                         callback: function(
                                                           $$v
                                                         ) {
                                                           _vm.$set(
                                                             _vm.editedItem,
-                                                            "protein",
+                                                            "type_item",
                                                             $$v
                                                           )
                                                         },
                                                         expression:
-                                                          "editedItem.protein"
+                                                          "editedItem.type_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-switch", {
+                                                      attrs: {
+                                                        label:
+                                                          "Свет: " +
+                                                          (_vm.editedItem
+                                                            .light_item == true
+                                                            ? "Да"
+                                                            : "Нет")
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .light_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "light_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.light_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: { label: "Цена" },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .price_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "price_item",
+                                                            _vm._n($$v)
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.price_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label: "Цена создания"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .make_price_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "make_price_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.make_price_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label:
+                                                          "Цена монтирования"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .mount_price_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "mount_price_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.mount_price_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: { label: "Фото" },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .photo_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "photo_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.photo_item"
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("UploadFile")
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label: "Расположение"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .location_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "location_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.location_item"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: { label: "Тех" },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .tech_item,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "tech_item",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.tech_item"
                                                       }
                                                     })
                                                   ],
@@ -38402,7 +38713,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                    Cancel\n                  "
+                                              "\n                    Отменить\n                  "
                                             )
                                           ]
                                         ),
@@ -38418,7 +38729,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                    Save\n                  "
+                                              "\n                    Сохранить\n                  "
                                             )
                                           ]
                                         )
@@ -38453,7 +38764,7 @@ var render = function() {
                                       { staticClass: "headline" },
                                       [
                                         _vm._v(
-                                          "Are you sure you want to delete this item?"
+                                          "Вы хотите удалить этот элемент?"
                                         )
                                       ]
                                     ),
@@ -38472,7 +38783,7 @@ var render = function() {
                                             },
                                             on: { click: _vm.closeDelete }
                                           },
-                                          [_vm._v("Cancel")]
+                                          [_vm._v("Отмена")]
                                         ),
                                         _vm._v(" "),
                                         _c(
@@ -38484,7 +38795,7 @@ var render = function() {
                                             },
                                             on: { click: _vm.deleteItemConfirm }
                                           },
-                                          [_vm._v("OK")]
+                                          [_vm._v("Удалить")]
                                         ),
                                         _vm._v(" "),
                                         _c("v-spacer")
@@ -38503,6 +38814,34 @@ var render = function() {
                       ]
                     },
                     proxy: true
+                  },
+                  {
+                    key: "item.type_item",
+                    fn: function(ref) {
+                      var item = ref.item
+                      return [
+                        _vm._v(
+                          "\n          " +
+                            _vm._s(
+                              item.type_item == true ? "Динамика" : "Статика"
+                            ) +
+                            "\n        "
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "item.light_item",
+                    fn: function(ref) {
+                      var item = ref.item
+                      return [
+                        _vm._v(
+                          "\n          " +
+                            _vm._s(item.light_item == true ? "Да" : "Нет") +
+                            "\n        "
+                        )
+                      ]
+                    }
                   },
                   {
                     key: "item.actions",
@@ -38548,7 +38887,7 @@ var render = function() {
                             attrs: { color: "primary" },
                             on: { click: _vm.initialize }
                           },
-                          [_vm._v(" Reset ")]
+                          [_vm._v(" Обновить ")]
                         )
                       ]
                     },
@@ -38567,6 +38906,59 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UploadFile.vue?vue&type=template&id=3fff6548& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
+      _c("label", [
+        _vm._v("File\n      "),
+        _c("input", {
+          ref: "file",
+          attrs: {
+            label: "Выберите файл",
+            "prepend-icon": "attach_file",
+            type: "file",
+            name: "file"
+          },
+          on: { change: _vm.handleFileUpload }
+        })
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.submitFile()
+            }
+          }
+        },
+        [_vm._v("Отправить")]
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
