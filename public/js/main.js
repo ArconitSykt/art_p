@@ -2035,6 +2035,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -38565,6 +38571,20 @@ var render = function() {
                                               "\n                  Новый элемент\n                "
                                             )
                                           ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                _vm.expanded.lenght > 0
+                                                  ? (_vm.expanded = [])
+                                                  : (_vm.expanded = _vm.items)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Раскрыть все")]
                                         )
                                       ]
                                     }

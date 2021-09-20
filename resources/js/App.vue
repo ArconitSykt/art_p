@@ -36,6 +36,12 @@
                   >
                     Новый элемент
                   </v-btn>
+                  <v-btn
+                    @click="
+                      expanded.lenght > 0 ? (expanded = []) : (expanded = items)
+                    "
+                    >Раскрыть все</v-btn
+                  >
                 </template>
                 <v-card>
                   <v-card-title>
